@@ -1,8 +1,8 @@
 class Agentdeck < Formula
   desc "Markdown-first HTML presentation toolchain for people and AI agents"
   homepage "https://github.com/shenyangs/agentdeck"
-  url "https://github.com/shenyangs/agentdeck/archive/refs/tags/v0.1.1.tar.gz"
-  sha256 "dc7144b04c92ce3fb948d8f43e871ccc2621360354a40332278b5dfb87d37cfb"
+  url "https://github.com/shenyangs/agentdeck/archive/refs/tags/v0.1.2.tar.gz"
+  sha256 "b8809772ea703e090f8b33991f5ae4758416bece9d818b4a2519aa640f205d15"
   license "MIT"
 
   depends_on "node"
