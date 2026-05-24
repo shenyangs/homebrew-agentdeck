@@ -1,8 +1,8 @@
 class Agentdeck < Formula
-  desc "Wrap decks from any source into enhanced single-file HTML presentations"
+  desc "Single-file HTML presentation player for AI-generated decks"
   homepage "https://github.com/shenyangs/agentdeck"
-  url "https://github.com/shenyangs/agentdeck/archive/refs/tags/v0.1.4.tar.gz"
-  sha256 "94cb4728cd19ed72bf9f79580e45ec4cbb4a9463ac68250ac218d5cb7b67cabd"
+  url "https://github.com/shenyangs/agentdeck/archive/refs/tags/v0.1.5.tar.gz"
+  sha256 "b45743130acb7a5e93357af9938dd9cb34bf630101038690d1d21c75828e9c1e"
   license "MIT"
 
   depends_on "node"
@@ -12,11 +12,27 @@ class Agentdeck < Formula
     system "npm", "run", "build"
 
     libexec.install Dir["*"]
-    bin.write_exec_script libexec/"packages/cli/dist/index.js"
+    (bin/"agentdeck").write <<~SHELL
+      #!/bin/bash
+      exec "#{Formula["node"].opt_bin}/node" "#{libexec}/packages/cli/dist/index.js" "$@"
+    SHELL
   end
 
   test do
-    output = shell_output("#{bin}/agentdeck --help")
-    assert_match "AgentDeck", output
+    assert_match "AgentDeck", shell_output("#{bin}/agentdeck --help")
+
+    (testpath/"deck.md").write <<~MARKDOWN
+      ---
+      title: Test Deck
+      theme: swiss
+      ---
+
+      # Hello
+      layout: statement
+
+      AgentDeck is ready.
+    MARKDOWN
+
+    system bin/"agentdeck", "lint", testpath/"deck.md"
   end
 end
